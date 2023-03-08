@@ -12,6 +12,7 @@
         public string? Description { get; set; }
 
         public ICollection<ProductsSupplier> ProductsSuppliers { get; set; } = new List<ProductsSupplier>();
+        public ICollection<ProductsService> ProductsServices { get; set; } = new List<ProductsService>();
 
         //ManyToOne
         public Workshop Workshop { get; set; }

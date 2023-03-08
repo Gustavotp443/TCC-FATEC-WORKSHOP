@@ -14,6 +14,8 @@
 
         //OneToMany
         public ICollection<Product> Products { get; set; } = new HashSet<Product>();
+
+        public ICollection<Service> Services { get; set; } = new HashSet<Service>();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set;}
 
