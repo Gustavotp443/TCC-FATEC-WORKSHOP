@@ -14,13 +14,17 @@
 
         public Supplier() { }
 
-        public Supplier(int id, string name, string phone, string? email, string? description)
+        public Supplier(string name, string phone, string? email, string? description)
         {
-            Id = id;
             Name = name;
             Phone = phone;
             Email = email;
             Description = description;
+        }
+
+        public void AddProductSupplier(ProductsSupplier productsSupplier)
+        {
+            ProductSuppliers.Add(productsSupplier);
         }
     }
 }

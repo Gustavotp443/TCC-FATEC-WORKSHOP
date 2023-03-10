@@ -10,7 +10,5 @@
 
         public double PurchasePrice { get; set; }
         public int Quantity { get; set; }
-    
-        
     }
 }

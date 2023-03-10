@@ -10,18 +10,24 @@
         public string ChassisNumber { get; set; }
 
         public ICollection<Service> Services { get; set; } = new HashSet<Service>();
+
+        public int ClientId { get; set; }
         public Client Client { get; set; }
         public Vehicle() { }
 
-        public Vehicle (int id, string model, int year, string brand, string licencePlate, string chassisNumber, Client client)
+        public Vehicle (string model, int year, string brand, string licencePlate, string chassisNumber, Client client)
         {
-            Id = id;
             Model = model;
             Year = year;
             Brand = brand;
             LicencePlate = licencePlate;
             ChassisNumber = chassisNumber;
             Client = client;
+        }
+
+        public void AddServices(Service service)
+        {
+            Services.Add(service);
         }
     }
 }

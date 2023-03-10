@@ -22,7 +22,7 @@ namespace TCCFatecWorkshop.Repositories
             return item;
         }
 
-        public async Task<User> Add(User user)  
+        public async Task<User> Create(User user)  
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();

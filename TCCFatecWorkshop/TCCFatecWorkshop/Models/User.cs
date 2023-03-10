@@ -8,7 +8,7 @@
         public string Password { get; set; }
 
         //OneToMany
-        public ICollection<Workshop> Workshops { get; set; } = new HashSet<Workshop>();
+        public ICollection<Workshop>? Workshops { get; set; } = new HashSet<Workshop>();
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -18,21 +18,20 @@
             CreatedAt = DateTime.UtcNow;
         }
 
-        public User(int id, string username, string email, string password) : this()
+        public User(string username, string email, string password) : this()
         {
-            Id = id;
             Username = username;
             Email = email;
             Password = password;
 
         }
 
-        public void addWorkshop(Workshop workshop)
+        public void AddWorkshop(Workshop workshop)
         {
             Workshops.Add(workshop);   
         }
 
-        public void removeWorkshop(Workshop workshop) 
+        public void RemoveWorkshop(Workshop workshop) 
         {
             var item = Workshops.FirstOrDefault(x => x.Id == workshop.Id);
             if (item != null)

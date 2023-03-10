@@ -15,18 +15,28 @@
         public ICollection<ProductsService> ProductsServices { get; set; } = new List<ProductsService>();
 
         //ManyToOne
+        public int WorkshopId { get; set; }
         public Workshop Workshop { get; set; }
 
         public Product() { }
 
-        public Product(int id, string name, string category, double salePrice, string? description, Workshop workshop)
+        public Product(string name, string category, double salePrice, string? description, Workshop workshop)
         {
-            Id = id;
             Name = name;
             Category = category;
             SalePrice = salePrice;
             Description = description;
             Workshop = workshop;
+        }
+
+        public void AddProductSupplier(ProductsSupplier productsSupplier)
+        {
+            ProductsSuppliers.Add(productsSupplier);
+        }
+
+        public void AddProductService(ProductsService productsService)
+        {
+            ProductsServices.Add(productsService);
         }
     }
 }

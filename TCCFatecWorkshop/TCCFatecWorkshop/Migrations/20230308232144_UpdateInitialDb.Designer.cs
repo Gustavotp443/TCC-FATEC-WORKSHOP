@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TCCFatecWorkshop.Data;
@@ -11,9 +12,11 @@ using TCCFatecWorkshop.Data;
 namespace TCCFatecWorkshop.Migrations
 {
     [DbContext(typeof(WorkshopProjectDBContext))]
-    partial class WorkshopProjectDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230308232144_UpdateInitialDb")]
+    partial class UpdateInitialDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,29 +35,23 @@ namespace TCCFatecWorkshop.Migrations
 
                     b.Property<string>("CPFCNPJ")
                         .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Document")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasAnnotation("RegularExpression", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -71,20 +68,17 @@ namespace TCCFatecWorkshop.Migrations
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasColumnType("text");
 
-                    b.Property<decimal>("SalePrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("SalePrice")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("WorkshopId")
                         .HasColumnType("integer");
@@ -119,8 +113,8 @@ namespace TCCFatecWorkshop.Migrations
                     b.Property<int>("SupplierId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("PurchasePrice")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -142,18 +136,16 @@ namespace TCCFatecWorkshop.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("FinalDate")
-                        .HasColumnType("timestamp");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("InitialDate")
-                        .HasColumnType("timestamp");
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Situation")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Situation")
+                        .HasColumnType("integer");
 
                     b.Property<double>("TotalValue")
                         .HasColumnType("double precision");
@@ -182,23 +174,18 @@ namespace TCCFatecWorkshop.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasAnnotation("RegularExpression", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -214,15 +201,12 @@ namespace TCCFatecWorkshop.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasAnnotation("RegularExpression", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+                        .HasColumnType("character varying(150)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -230,9 +214,7 @@ namespace TCCFatecWorkshop.Migrations
                         .HasColumnType("character varying(30)");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -254,26 +236,22 @@ namespace TCCFatecWorkshop.Migrations
 
                     b.Property<string>("Brand")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ChassisNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ClientId")
                         .HasColumnType("integer");
 
                     b.Property<string>("LicencePlate")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<int>("Year")
                         .HasColumnType("integer");
@@ -294,28 +272,20 @@ namespace TCCFatecWorkshop.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasAnnotation("RegularExpression", "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -340,13 +310,13 @@ namespace TCCFatecWorkshop.Migrations
 
             modelBuilder.Entity("TCCFatecWorkshop.Models.ProductsService", b =>
                 {
-                    b.HasOne("TCCFatecWorkshop.Models.Product", "Product")
+                    b.HasOne("TCCFatecWorkshop.Models.Service", "Service")
                         .WithMany("ProductsServices")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TCCFatecWorkshop.Models.Service", "Service")
+                    b.HasOne("TCCFatecWorkshop.Models.Product", "Product")
                         .WithMany("ProductsServices")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -359,14 +329,14 @@ namespace TCCFatecWorkshop.Migrations
 
             modelBuilder.Entity("TCCFatecWorkshop.Models.ProductsSupplier", b =>
                 {
-                    b.HasOne("TCCFatecWorkshop.Models.Product", "Product")
-                        .WithMany("ProductsSuppliers")
+                    b.HasOne("TCCFatecWorkshop.Models.Supplier", "Supplier")
+                        .WithMany("ProductSuppliers")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TCCFatecWorkshop.Models.Supplier", "Supplier")
-                        .WithMany("ProductSuppliers")
+                    b.HasOne("TCCFatecWorkshop.Models.Product", "Product")
+                        .WithMany("ProductsSuppliers")
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

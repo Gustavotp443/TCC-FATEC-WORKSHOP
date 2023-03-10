@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TCCFatecWorkshop.Data;
@@ -11,9 +12,11 @@ using TCCFatecWorkshop.Data;
 namespace TCCFatecWorkshop.Migrations
 {
     [DbContext(typeof(WorkshopProjectDBContext))]
-    partial class WorkshopProjectDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230310161131_MapRealized")]
+    partial class MapRealized
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

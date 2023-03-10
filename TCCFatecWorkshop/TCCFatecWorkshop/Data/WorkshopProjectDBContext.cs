@@ -25,18 +25,18 @@ namespace TCCFatecWorkshop.Data
         {
             //MAPS
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new WorkshopMap());
+            modelBuilder.ApplyConfiguration(new  ProductMap());
+            modelBuilder.ApplyConfiguration(new ProductsSupplierMap());
+            modelBuilder.ApplyConfiguration(new SupplierMap());
+            modelBuilder.ApplyConfiguration(new ProductsServiceMap());
+            modelBuilder.ApplyConfiguration(new ServiceMap());
+            modelBuilder.ApplyConfiguration(new VehicleMap());
+            modelBuilder.ApplyConfiguration(new ClientMap());
 
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().ToTable("tb_users");
-            modelBuilder.Entity<Workshop>().ToTable("tb_workshops");
-            modelBuilder.Entity<Product>().ToTable("tb_products");
-            modelBuilder.Entity<ProductsSupplier>().ToTable("tb_products_suppliers").HasKey(ps => new { ps.ProductId, ps.SupplierId });
-            modelBuilder.Entity<Supplier>().ToTable("tb_suppliers");
-            modelBuilder.Entity<Service>().ToTable("tb_services");
-            modelBuilder.Entity<ProductsService>().ToTable("tb_products_services").HasKey(ps => new { ps.ProductId, ps.ServiceId }); 
-            modelBuilder.Entity<Vehicle>().ToTable("tb_vehicle");
-            modelBuilder.Entity<Client>().ToTable("tb_client");
 
+
+            base.OnModelCreating(modelBuilder);       
         }
     }
 }

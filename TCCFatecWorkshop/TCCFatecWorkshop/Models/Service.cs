@@ -16,8 +16,12 @@ namespace TCCFatecWorkshop.Models
 
         public ICollection<ProductsService> ProductsServices { get; set; } = new List<ProductsService>();
 
+
+        public int WorkshopId { get; set; }
         public Workshop Workshop { get; set; }
 
+
+        public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
 
         public Service() 
@@ -25,15 +29,19 @@ namespace TCCFatecWorkshop.Models
             InitialDate = DateTime.UtcNow;
         }
 
-        public Service(int id, string description, double totalValue, ServicesSituation situation, DateTime finalDate,Workshop workshop, Vehicle vehicle) : this()
+        public Service(string description, double totalValue, ServicesSituation situation, DateTime finalDate,Workshop workshop, Vehicle vehicle) : this()
         {
-            Id = id;
             Description = description;
             TotalValue = totalValue;
             Situation = situation;
             FinalDate = finalDate;
             Workshop = workshop;
             Vehicle = vehicle;
+        }
+
+        public void AddProductsService(ProductsService productService)
+        {
+            ProductsServices.Add(productService);
         }
 
     }

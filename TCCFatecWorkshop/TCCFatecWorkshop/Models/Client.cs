@@ -14,14 +14,18 @@
 
         public Client() { }
 
-        public Client(int id, string name, string email, string cPFCNPJ, string document, string phone)
+        public Client(string name, string email, string cPFCNPJ, string document, string phone)
         {
-            Id = id;
             Name = name;
             Email = email;
             CPFCNPJ = cPFCNPJ;
             Document = document;
             Phone = phone;
+        }
+
+        public void addVehicle(Vehicle vehicle)
+        {
+            Vehicles.Add(vehicle);
         }
     }
 }

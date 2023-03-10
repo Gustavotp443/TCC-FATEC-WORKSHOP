@@ -1,4 +1,6 @@
-﻿namespace TCCFatecWorkshop.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TCCFatecWorkshop.Models
 {
     public class Workshop
     {
@@ -6,10 +8,11 @@
 
         public string Name { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public string? Description { get; set; }
 
         //ManyToOne
+        public int UserId { get; set; }
         public User User { get; set; }
 
         //OneToMany
@@ -24,21 +27,20 @@
             CreatedAt = DateTime.UtcNow;
         }
 
-        public Workshop(int id, string name, string email, string? description, User user) : this()
+        public Workshop( string name, string? email, string? description, User user) : this()
         {
-            Id = id;
             Name = name;
             Email = email;
             Description = description;
             User = user;
         }
 
-        public void addProduct(Product product)
+        public void AddProduct(Product product)
         {
             Products.Add(product);
         }
 
-        public void removeProduct(Product product) 
+        public void RemoveProduct(Product product) 
         {
             var item = Products.FirstOrDefault(x=> x.Id == product.Id);
             if (item != null)
