@@ -19,7 +19,7 @@ namespace TCCFatecWorkshop.Data.Map
                 .HasMaxLength(150)
                 .HasAnnotation("RegularExpression", @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
-            builder.Property(x => x.Password).IsRequired().HasMaxLength(30);
+            builder.Property(x => x.Password).IsRequired();
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(x => x.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             

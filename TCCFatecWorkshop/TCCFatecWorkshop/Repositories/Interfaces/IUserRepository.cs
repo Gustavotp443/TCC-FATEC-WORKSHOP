@@ -8,5 +8,6 @@ namespace TCCFatecWorkshop.Repositories.Interfaces
         Task<User> Create(User user);
         Task<User> Update(User user, int id);
         Task<bool> Delete(int id);
+        Task<User> GetByEmailAndPassword(string email, string password);
     }
 }

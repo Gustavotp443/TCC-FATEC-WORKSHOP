@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TCCFatecWorkshop.Data;
 using TCCFatecWorkshop.Repositories;
 using TCCFatecWorkshop.Repositories.Interfaces;
@@ -20,10 +23,30 @@ builder.Services.AddEntityFrameworkNpgsql()
     );
 
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();  
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+//JWT
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                /*ValidateIssuer = true,
+                ValidateAudience = true,*/
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                /*ValidIssuer = "mydomain.com",
+                ValidAudience = "mydomain.com",*/
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("sadmifnrn01043nr9fn2fbfn9s1-asdçç"))
+            };
+        });
 
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 /*
 if (args.Length == 1 && args[0].ToLower() == "seeddata") SeedData(app);
@@ -38,6 +61,7 @@ void SeedData(IHost app)
         service.SeedDataContext();
     }
 }*/
+
 
 
 
