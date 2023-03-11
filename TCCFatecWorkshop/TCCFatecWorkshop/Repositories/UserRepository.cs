@@ -46,7 +46,7 @@ namespace TCCFatecWorkshop.Repositories
 
         public async Task<User> FindById(int id)
         {
-            var item = await _context.Users.FirstOrDefaultAsync(x => x.Id == id) ?? throw new NotFoundException($"User for ID:{id} not found");
+            var item = await _context.Users.Include(u => u.Workshops).FirstOrDefaultAsync(x => x.Id == id) ?? throw new NotFoundException($"User for ID:{id} not found");
             return item;
         }
 

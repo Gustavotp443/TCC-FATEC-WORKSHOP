@@ -26,8 +26,9 @@ builder.Services.AddEntityFrameworkNpgsql()
         options => options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase"))
     );
 
-
+//REPOSITORY ENTITIES
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWorkshopRepository, WorkshopRepository>();
 
 //JWT
 
@@ -59,13 +60,18 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAssertion(context =>
         {
             var httpContext = context.Resource as HttpContext;
-            var requestedUserId = httpContext.Request.RouteValues["id"].ToString();
+            var requestedUserId = httpContext.Request.RouteValues["userId"].ToString();
             var userIdClaim = context.User.FindFirst("userId")?.Value;
             return requestedUserId == userIdClaim;
         });
     });
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 
 var app = builder.Build();
 

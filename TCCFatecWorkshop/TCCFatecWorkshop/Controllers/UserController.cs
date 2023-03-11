@@ -23,20 +23,27 @@ namespace TCCFatecWorkshop.Controllers
 
 
         [Authorize(Policy = "UserPolicy")]
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<User>> FindById(int id)
+        public async Task<ActionResult<User>> FindById(int userId)
         {
             try
             {
-                User user = await _userRepository.FindById(id);
+                User user = await _userRepository.FindById(userId);
                 return Ok(new
                 {
                     username = user.Username,
                     email = user.Email,
                     CreatedAtAction = user.CreatedAt,
                     updatedat = user.UpdatedAt,
+                    Workshops = user.Workshops.Select(w => new {
+                        name = w.Name,
+                        email = w.Email,
+                        description = w.Description,
+                        CreatedAtAction = w.CreatedAt,
+                        updatedat = w.UpdatedAt
+                    }).ToList(),
                 });
             } catch (NotFoundException ex)
             {
@@ -83,11 +90,11 @@ namespace TCCFatecWorkshop.Controllers
         }
 
         [Authorize(Policy = "UserPolicy")]
-        [HttpPut("{id}")]
+        [HttpPut("{userId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<User>> Update(int id, [FromBody] UserUpdateDTO userUpdateDTO)
+        public async Task<ActionResult<User>> Update(int userId, [FromBody] UserUpdateDTO userUpdateDTO)
         {
             try
             {
@@ -111,7 +118,7 @@ namespace TCCFatecWorkshop.Controllers
                 }
 
 
-                User userReturned = await _userRepository.Update(user, id);
+                User userReturned = await _userRepository.Update(user, userId);
                 return Ok(new
                 {
                     username= userReturned.Username,
@@ -126,14 +133,14 @@ namespace TCCFatecWorkshop.Controllers
         }
 
         [Authorize(Policy = "UserPolicy")]
-        [HttpDelete("{id}")]
+        [HttpDelete("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<User>> Delete(int id)
+        public async Task<ActionResult<User>> Delete(int userId)
         {
             try
             {
-                await _userRepository.Delete(id);
+                await _userRepository.Delete(userId);
                 return NoContent();
 
             }catch(NotFoundException ex)

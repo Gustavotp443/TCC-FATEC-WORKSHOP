@@ -24,6 +24,7 @@ namespace TCCFatecWorkshop.Data.Map
                 .HasAnnotation("RegularExpression", @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
             builder.Property(x => x.Description).HasMaxLength(1000);
+
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(x => x.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
