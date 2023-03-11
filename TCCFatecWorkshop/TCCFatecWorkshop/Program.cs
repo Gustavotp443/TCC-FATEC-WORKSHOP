@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TCCFatecWorkshop;
 using TCCFatecWorkshop.Data;
+using TCCFatecWorkshop.Models;
 using TCCFatecWorkshop.Repositories;
 using TCCFatecWorkshop.Repositories.Interfaces;
+using TCCFatecWorkshop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,23 +31,44 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //JWT
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
+var key = Encoding.ASCII.GetBytes(Key.Secret);
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserPolicy", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("userId");
+        policy.RequireAssertion(context =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                /*ValidateIssuer = true,
-                ValidateAudience = true,*/
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                /*ValidIssuer = "mydomain.com",
-                ValidAudience = "mydomain.com",*/
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("sadmifnrn01043nr9fn2fbfn9s1-asdçç"))
-            };
+            var httpContext = context.Resource as HttpContext;
+            var requestedUserId = httpContext.Request.RouteValues["id"].ToString();
+            var userIdClaim = context.User.FindFirst("userId")?.Value;
+            return requestedUserId == userIdClaim;
         });
+    });
+});
 
 
 var app = builder.Build();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,7 +1,8 @@
-﻿using TCCFatecWorkshop.Models;
+﻿using TCCFatecWorkshop.Data;
+using TCCFatecWorkshop.Models;
 using TCCFatecWorkshop.Models.Enums;
 
-namespace TCCFatecWorkshop.Data
+namespace TCCFatecWorkshop.Services
 {
     public class SeedService
     {
@@ -11,9 +12,9 @@ namespace TCCFatecWorkshop.Data
         {
             _dbContext = dbContext;
         }
-        
-        public void SeedDataContext() 
-        { 
+
+        public void SeedDataContext()
+        {
             /*if(!_dbContext.Users.Any())
             {
             }*/

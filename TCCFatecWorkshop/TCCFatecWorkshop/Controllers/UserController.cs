@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TCCFatecWorkshop.Models;
 using TCCFatecWorkshop.Models.DTO.User;
-using TCCFatecWorkshop.Models.Token;
 using TCCFatecWorkshop.Repositories.Exceptions;
 using TCCFatecWorkshop.Repositories.Interfaces;
 
@@ -19,25 +19,10 @@ namespace TCCFatecWorkshop.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpPost("login")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
-        public async Task<ActionResult<string>> Login([FromBody] LoginDTO loginDTO)
-        {
-            var user = await _userRepository.GetByEmailAndPassword(loginDTO.Email, loginDTO.Password);
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
-            var token = Token.GenerateJwtToken(user);
-
-            return Ok(new { token });
-        }
+      
 
 
-
+        [Authorize(Policy = "UserPolicy")]
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -90,10 +75,14 @@ namespace TCCFatecWorkshop.Controllers
             catch(EmailAlreadyExistsException ex)
             {
                 return BadRequest(ex.Message);
+            } catch(UsernameAlreadyExistsException ex)
+            {
+                return BadRequest(ex.Message);
             }
           
         }
 
+        [Authorize(Policy = "UserPolicy")]
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -107,11 +96,20 @@ namespace TCCFatecWorkshop.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var user = new User
+
+                var user = new User();
+
+
+                if (!string.IsNullOrEmpty(userUpdateDTO.Username)) user.Username = userUpdateDTO.Username;
+            
+                if (!string.IsNullOrEmpty(userUpdateDTO.Password)) user.Password = userUpdateDTO.Password;
+
+                if(string.IsNullOrEmpty(userUpdateDTO.Username) && string.IsNullOrEmpty(userUpdateDTO.Password))
                 {
-                    Username = userUpdateDTO.Username,
-                    Password = userUpdateDTO.Password
-                };
+                    return BadRequest("Os dois campos não podem estar nulos");
+
+                }
+
 
                 User userReturned = await _userRepository.Update(user, id);
                 return Ok(new
@@ -127,6 +125,7 @@ namespace TCCFatecWorkshop.Controllers
             
         }
 
+        [Authorize(Policy = "UserPolicy")]
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]

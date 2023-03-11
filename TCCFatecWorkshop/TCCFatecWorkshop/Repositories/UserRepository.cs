@@ -56,6 +56,10 @@ namespace TCCFatecWorkshop.Repositories
             {
                 throw new EmailAlreadyExistsException($"E-mail {user.Email} already exist");
             }
+            if (await _context.Users.AnyAsync(u => u.Username == user.Username))
+            {
+                throw new UsernameAlreadyExistsException($"Username {user.Username} already exist");
+            }
 
             ConvertToHashPassword(user);
             await _context.Users.AddAsync(user);
