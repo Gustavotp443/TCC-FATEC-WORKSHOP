@@ -73,11 +73,22 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     });
 
+//CORS POLICY
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(setting =>
+    {
+        setting.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors();
 
 /*
 if (args.Length == 1 && args[0].ToLower() == "seeddata") SeedData(app);
@@ -104,8 +115,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 
