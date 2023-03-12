@@ -1,5 +1,5 @@
-import React from 'react'
-import api from '../../services/api';
+import React from "react";
+import api from "../../services/api";
 
 const SingUp = () => {
 
@@ -16,13 +16,13 @@ const SingUp = () => {
     const initialErrors: FormValuesErrors = {};
 
     const [formValue, setFormValue] = React.useState<FormValues>({
-        username:'',
-        email:'',
-        password:'',
+        username:"",
+        email:"",
+        password:"",
     });
 
     const [errors, setErrors] = React.useState<FormValuesErrors>(initialErrors);
-    
+
 
     const handleFormChange = (e:React.ChangeEvent<HTMLInputElement>) =>{
         const {name, value} = e.target;
@@ -32,7 +32,7 @@ const SingUp = () => {
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>, formValue: FormValues) => {
         e.preventDefault();
 
-        console.log(formValue)
+        console.log(formValue);
         await api.post("user", formValue).then(
             (response) =>   console.log(response.data)
         ).catch(error => {
@@ -51,11 +51,11 @@ const SingUp = () => {
                 console.log(error.request);
             } else {
                 // Ocorreu um erro ao configurar a solicitação
-                console.log('Erro', error.message);
+                console.log("Erro", error.message);
             }
             console.log(error.config);
-        })
-    }
+        });
+    };
 
   return (
     <div>
@@ -72,7 +72,7 @@ const SingUp = () => {
             ) : null}
             </div>
             <label htmlFor="email">Email</label>
-            <div>     
+            <div>
             <input name="email" type="text" value={formValue.email} onChange={e => handleFormChange(e)}/>
             {errors.email ? (Array.isArray(errors.email) ? (errors.email.map((error, index) => (
                 <div key={index} className="error">{error}</div>))
@@ -82,7 +82,7 @@ const SingUp = () => {
             ) : null}
             </div>
             <label htmlFor="password">Password</label>
-            <div>     
+            <div>
             <input name="password" type="password"  value={formValue.password} onChange={e => handleFormChange(e)}/>
             {errors.password ? (Array.isArray(errors.password) ? (errors.password.map((error, index) => (
                 <div key={index} className="error">{error}</div>))
@@ -94,7 +94,7 @@ const SingUp = () => {
             <button type="submit">Sing Up</button>
         </form>
     </div>
-  )
-}
+  );
+};
 
-export default SingUp
+export default SingUp;

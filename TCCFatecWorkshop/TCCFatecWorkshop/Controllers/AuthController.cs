@@ -39,7 +39,7 @@ namespace TCCFatecWorkshop.Controllers
             
             }catch(LoginFailed ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { login = ex.Message});
             }
             }
             

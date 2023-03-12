@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import './css/App.css'
-import Routering from './Routes/Routes';
+import "./css/App.css";
+import Routering from "./Routes/Routes";
 
 
 
@@ -11,6 +11,6 @@ function App() {
     <Routering/>
    </>
   );
-}
+  }
 
 export default App;
