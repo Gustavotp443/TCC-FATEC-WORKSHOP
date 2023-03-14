@@ -14,6 +14,9 @@ const Routering = () => {
             <Route path="/workshops" element={<PrivateRoute/>}>
               <Route path="/workshops" element={<P.Workshops/>}/>
             </Route>
+            <Route path="/subworkshops" element={<PrivateRoute/>}>
+              <Route path="/subworkshops" element={<P.SubWorkshops/>}/>
+            </Route>
             <Route path="*" element={<P.Error/>}/>
         </Routes>
     </Router>

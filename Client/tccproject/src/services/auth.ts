@@ -1,6 +1,8 @@
 import jwtDecode from "jwt-decode";
 
+
 export const isAuthenticated = () =>{
+
 
   interface JwtPayload{
     sub:string;
@@ -9,7 +11,6 @@ export const isAuthenticated = () =>{
 
   const token = sessionStorage.getItem("token");
   if(!token) return false;
-
   try{
     const decodedToken:JwtPayload = jwtDecode(token);
     const now = Date.now().valueOf()/1000;  //seconds

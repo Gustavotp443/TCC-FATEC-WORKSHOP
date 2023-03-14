@@ -25,7 +25,7 @@ namespace TCCFatecWorkshop.Controllers
         [HttpGet("{workshopId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<Workshop>> FindById(int workshopId)
+        public async Task<ActionResult<WorkshopGetDTO>> FindById(int workshopId)
         {
             try
             {
@@ -35,16 +35,8 @@ namespace TCCFatecWorkshop.Controllers
                     return BadRequest("Invalid userId claim");
                 }
 
-                Workshop workshop = await _workshopRepository.FindById(userId,workshopId);
-                return Ok(new
-                {
-                    name = workshop.Name,
-                    email = workshop.Email,
-                    description = workshop.Description,
-                    CreatedAtAction = workshop.CreatedAt,
-                    updatedat = workshop.UpdatedAt,
-                    user = workshop.User.Username
-                }); ;
+                WorkshopGetDTO workshop = await _workshopRepository.FindByIdDTO(userId,workshopId);
+                return Ok(workshop) ;
             }
             catch (NotFoundException ex)
             {
@@ -164,7 +156,6 @@ namespace TCCFatecWorkshop.Controllers
                     name = updatedWorkshop.Name,
                     email = updatedWorkshop.Email,
                     description = updatedWorkshop.Description,
-                    User = updatedWorkshop.User.Username
                 });
             
             }
@@ -172,6 +163,20 @@ namespace TCCFatecWorkshop.Controllers
             {
                 return NotFound(ex.Message);
             }
+
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<List<WorkshopGetDTO>>> GetALl()
+        {
+            var userIdClaim = HttpContext.User.FindFirst("userId")?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return BadRequest("Invalid userId claim");
+            }
+            var workshops = await _workshopRepository.GetAll(userId);
+            return Ok(workshops);
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TCCFatecWorkshop.Data;
 using TCCFatecWorkshop.Models;
+using TCCFatecWorkshop.Models.DTO.Workshop;
 using TCCFatecWorkshop.Repositories.Exceptions;
 using TCCFatecWorkshop.Repositories.Interfaces;
 
@@ -54,10 +55,31 @@ namespace TCCFatecWorkshop.Repositories
             return true;
         }
 
+        public async Task<WorkshopGetDTO> FindByIdDTO(int userId, int workshopId)
+        {
+            await NegateAccess(userId, workshopId);
+            WorkshopGetDTO item = await _context
+                .Workshops
+                .Select(w => new WorkshopGetDTO
+                {
+                    Id = w.Id,
+                    Name = w.Name,
+                    Email = w.Email,
+                    Description = w.Description,
+                    UserId = w.UserId,
+                    CreatedAt = w.CreatedAt,
+                    UpdatedAt = w.UpdatedAt
+                })
+                .FirstOrDefaultAsync(x => x.Id == workshopId) ?? throw new NotFoundException($"Workshop for ID:{workshopId} not found");
+            return item;
+        }
+
         public async Task<Workshop> FindById(int userId, int workshopId)
         {
             await NegateAccess(userId, workshopId);
-            var item = await _context.Workshops.Include(x=> x.User).FirstOrDefaultAsync(x => x.Id == workshopId) ?? throw new NotFoundException($"Workshop for ID:{workshopId} not found");
+            var item = await _context
+                .Workshops
+                .FirstOrDefaultAsync(x => x.Id == workshopId) ?? throw new NotFoundException($"Workshop for ID:{workshopId} not found");
             return item;
         }
 
@@ -75,6 +97,18 @@ namespace TCCFatecWorkshop.Repositories
 
         }
 
-
+        public async Task<List<WorkshopGetDTO>> GetAll(int userId)
+        {
+            return await _context.Workshops.Where(x => x.UserId == userId)
+                .Select(x => new WorkshopGetDTO {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Email = x.Email,
+                    Description = x.Description,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt
+                })
+                .ToListAsync();
+        }
     }
 }

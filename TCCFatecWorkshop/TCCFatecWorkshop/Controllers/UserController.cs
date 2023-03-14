@@ -26,7 +26,7 @@ namespace TCCFatecWorkshop.Controllers
         [HttpGet("{userId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<User>> FindById(int userId)
+        public async Task<ActionResult<UserGetDTO>> FindById(int userId)
         {
             try
             {
@@ -35,15 +35,8 @@ namespace TCCFatecWorkshop.Controllers
                 {
                     username = user.Username,
                     email = user.Email,
-                    CreatedAtAction = user.CreatedAt,
-                    updatedat = user.UpdatedAt,
-                    Workshops = user.Workshops.Select(w => new {
-                        name = w.Name,
-                        email = w.Email,
-                        description = w.Description,
-                        CreatedAtAction = w.CreatedAt,
-                        updatedat = w.UpdatedAt
-                    }).ToList(),
+                    createdAt = user.CreatedAt,
+                    updatedat = user.UpdatedAt
                 });
             } catch (NotFoundException ex)
             {

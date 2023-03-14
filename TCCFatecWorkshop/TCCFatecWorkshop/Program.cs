@@ -85,10 +85,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
+app.UseRouting();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
+
+
+
 
 /*
 if (args.Length == 1 && args[0].ToLower() == "seeddata") SeedData(app);
